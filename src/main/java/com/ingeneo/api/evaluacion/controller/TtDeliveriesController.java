@@ -15,6 +15,7 @@ import com.ingeneo.api.evaluacion.repository.CtDestinationsRespository;
 import com.ingeneo.api.evaluacion.repository.CtProductsRepository;
 import com.ingeneo.api.evaluacion.repository.TtDeliveriesRepository;
 import com.ingeneo.api.evaluacion.request.DeliveriesRequest;
+import com.ingeneo.api.evaluacion.response.MessageResponse;
 import java.math.BigDecimal;
 import java.security.SecureRandom;
 import java.util.ArrayList;
@@ -49,8 +50,18 @@ public class TtDeliveriesController {
     @Autowired
     CtDestinationsRespository ctDestinationsRespository;
     
+    @GetMapping("/all")
+    public ResponseEntity<List<TtDeliveries>> getAll() {
+        List<TtDeliveries> ttDeliveries = new ArrayList<>();
+            ttDeliveriesRepository.findAll().forEach(ttDeliveries::add);
+        if (ttDeliveries.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(ttDeliveries, HttpStatus.OK);
+    }
+    
     @PostMapping("/")
-    public ResponseEntity<TtDeliveries> createDeliverie(@Valid @RequestBody DeliveriesRequest request){
+    public ResponseEntity<?> createDeliverie(@Valid @RequestBody DeliveriesRequest request){
         TtDeliveries deliveries= new TtDeliveries();
         deliveries.setIdCustomer(new CtCustomers());
         deliveries.setIdProduct(new CtProducts());
@@ -73,30 +84,31 @@ public class TtDeliveriesController {
                 pattern1 =Pattern.compile("^[A-Z]{3}[0-9]{4}[A-Z]{1}$");
             }
             matcher1 = pattern1.matcher(request.getTransportNumber());
-            if(!matcher1.find()){
-                throw new ResourceNotFoundException("Numero de transporte no coincide con el formato 3 letras y 3 numeros");
-            }
-            deliveries.setTransportNumber(request.getTransportNumber());
-            deliveries.setTrackingNumber(generateRandomTracking());
-            deliveries.setFhDelivered(request.getFhDelivered());
-            deliveries.setStatus(true);
-            deliveries.setQuantity(request.getQuantity());
-            if(deliveries.getQuantity()>=10 ){
-                BigDecimal discount = BigDecimal.ZERO;
-                if(deliveries.getCtDestination().getType().equals("1")){
-                    deliveries.setDisscount(new BigDecimal("0.05"));
-                }else{
-                    deliveries.setDisscount(new BigDecimal("0.03"));
+            if (matcher1.find()) {
+                deliveries.setTransportNumber(request.getTransportNumber());
+                deliveries.setTrackingNumber(generateRandomTracking());
+                deliveries.setFhDelivered(request.getFhDelivered());
+                deliveries.setStatus(true);
+                deliveries.setQuantity(request.getQuantity());
+                if (deliveries.getQuantity() >= 10) {
+                    BigDecimal discount = BigDecimal.ZERO;
+                    if (deliveries.getCtDestination().getType().equals("1")) {
+                        discount = new BigDecimal("0.05");
+                    } else {
+                        discount = new BigDecimal("0.03");
+                    }
+                    deliveries.setAmount(deliveries.getIdProduct().getPrice().multiply(BigDecimal.valueOf(deliveries.getQuantity())));
+                    deliveries.setDisscount(deliveries.getAmount().multiply(discount));
+                } else {
+                    deliveries.setAmount(deliveries.getIdProduct().getPrice().multiply(BigDecimal.valueOf(deliveries.getQuantity())));
+                    deliveries.setDisscount(BigDecimal.ZERO);
                 }
-                deliveries.setAmount(deliveries.getIdProduct().getPrice().multiply(new BigDecimal(deliveries.getQuantity())));
-                deliveries.setDisscount(deliveries.getAmount().multiply(discount));
-            }else{
-                deliveries.setAmount(deliveries.getIdProduct().getPrice().multiply(new BigDecimal(deliveries.getQuantity())));
-                deliveries.setDisscount(BigDecimal.ZERO);
+                deliveries.setFhCreated(new Date());
+                ttDeliveriesRepository.save(deliveries);
+                return new ResponseEntity<>(deliveries, HttpStatus.CREATED);
+            } else {
+                return ResponseEntity.badRequest().body(new MessageResponse("Numero de transporte no coincide con el formato 3 letras y 3 numeros"));
             }
-            deliveries.setFhCreated(new Date());
-            ttDeliveriesRepository.save(deliveries);
-            return new ResponseEntity<>(deliveries, HttpStatus.CREATED);
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }

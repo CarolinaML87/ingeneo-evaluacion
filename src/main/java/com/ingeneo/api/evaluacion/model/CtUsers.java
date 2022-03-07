@@ -1,9 +1,8 @@
 package com.ingeneo.api.evaluacion.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.Date;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.*;
 
@@ -22,7 +21,13 @@ public class CtUsers{
     
     @Column(columnDefinition = "password")
     private String password;
-
+    
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(	name = "user_roles",schema = "logistica",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<CtRoles> roles = new HashSet<>();
+    
     public Integer getId() {
         return id;
     }

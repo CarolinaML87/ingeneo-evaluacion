@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -56,5 +57,15 @@ public class CtProductsController {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(ctproducts, HttpStatus.OK);
+    }
+    
+    @PutMapping("/{id}")
+    public ResponseEntity<CtProducts> update(@PathVariable("id") Long id, @RequestBody CtProducts request) {
+        CtProducts ctProducts  = ctProductsRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("No se encontro el registro de producto con id = " + id));
+        ctProducts.setName(request.getName());
+        ctProducts.setDescription(request.getDescription());
+        ctProducts.setPrice(request.getPrice());
+        return new ResponseEntity<>(ctProductsRepository.save(ctProducts), HttpStatus.OK);
     }
 }

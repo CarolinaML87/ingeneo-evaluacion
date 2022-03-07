@@ -27,6 +27,7 @@ public class CtProducts {
     @Column
     private String name;
 
+    @NotBlank(message = "descripcion de producto es requerido")
     @Column
     private String description;
 

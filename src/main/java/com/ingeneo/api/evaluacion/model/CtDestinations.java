@@ -12,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "ct_destinations", schema = "public")
@@ -21,19 +22,23 @@ public class CtDestinations {
     @Column
     private Long id;
     
-    @Column
+    @NotBlank(message = "Nombre de bodega es requerido")
+    @Column(name = "name")
     private String name;
     
-    @Column
+    @NotBlank(message = "Descripcion de bodega es requerido")
+    @Column(name = "description")
     private String description;
     
-    @Column
+    @NotBlank(message = "Tipo de bodega es requerido 1:Terrestre 2:Maritima")
+    @Column(name = "type")
     private String type;
     
-    @Column
+    @Column(name = "status")
     private Boolean status;
     
-    @Column
+    @NotBlank(message = "Direccion de bodega es requerida")
+    @Column(name = "address")
     private String address;
     
     public CtDestinations(){    }

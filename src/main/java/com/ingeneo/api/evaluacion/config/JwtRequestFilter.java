@@ -5,7 +5,7 @@
  */
 package com.ingeneo.api.evaluacion.config;
 
-import com.ingeneo.api.evaluacion.service.JwtUserDetailsService;
+import com.ingeneo.api.evaluacion.service.JwtUserDetailsServiceImpl;
 import io.jsonwebtoken.ExpiredJwtException;
 import java.io.IOException;
 import javax.servlet.FilterChain;
@@ -23,7 +23,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter{
     @Autowired
-	private JwtUserDetailsService jwtUserDetailsService;
+	private JwtUserDetailsServiceImpl jwtUserDetailsService;
 
 	@Autowired
 	private JwtTokenUtil jwtTokenUtil;

@@ -12,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
 import javax.validation.constraints.NotBlank;
 
 @Entity
@@ -22,33 +23,42 @@ public class CtCustomers {
     @Column
     private Long id;
 
-    @NotBlank(message = "nombre es requerido")
-    @Column
+    @NotBlank(message = "Nombres son requeridos son requerido")
+    @Column(name = "first_name")
     private String firstName;
-
-    @Column
+    
+    @NotBlank(message = "Apellidos son requeridos son requerido")
+    @Column(name = "last_name")
     private String lastName;
 
-    @Column
+    @NotBlank(message = "Numero de contacto es requerido")
+    @Column(name = "phone")
     private String phone;
     
-    @Column
+    @Column(name = "status")
     private Boolean status;
     
-    @Column
+    @Column(name = "fh_created")
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date fhCreated;
     
-    @Column
+    @NotBlank(message = "Correo electronico es requerido")
+    @Column(name = "email")
     private String email;
+    
+    @NotBlank(message = "Direccion es requerida")
+    @Column(name = "address")
+    private String address;
 
     public CtCustomers(){    }
-    public CtCustomers(String firsName, String lastName, String phone, Boolean status, Date fhcreated, String email) {
+    public CtCustomers(String firsName, String lastName, String phone, Boolean status, Date fhcreated, String email,String address) {
         this.firstName = firsName;
         this.lastName = lastName;
         this.phone = phone;
         this.status = status;
         this.fhCreated = fhcreated;
         this.email = email;
+        this.address = address;
     }
 
     public Long getId() {
@@ -106,6 +116,13 @@ public class CtCustomers {
     public void setEmail(String email) {
         this.email = email;
     }
-    
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
     
 }
