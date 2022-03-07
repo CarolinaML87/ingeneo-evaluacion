@@ -1,34 +1,35 @@
-## Spring Boot, PostgreSQL, JPA, Hibernate REST API Demo
+## API EVALUACION TECNICA INGENEO
+#MAYRA CAROLINA MERCADO LAINEZ
 
-## Tutorial
+## Desarrollo de API para transporte de productos por medio terrestre y maritimo
 
-Check out the complete tutorial on the CalliCoder blog -
+Diagrama ER de la solucion desarrollada.
 
-[Spring Boot, PostgreSQL, JPA, Hibernate RESTful CRUD API Example](https://www.callicoder.com/spring-boot-jpa-hibernate-postgresql-restful-crud-api-example/)
+![DIAGRAMA ER](https://user-images.githubusercontent.com/54516995/157090818-238bfbb6-59c8-494a-beb0-dddd7b694ad7.png)
 
-## Steps to Setup
+## Tecnologias utilizadas para el desarrollo
 
-**1. Clone the repository**
+* Proyecto Maven
+* Java (version 8)
+* Base de datos: PostgreSQL.
+* Framework: spring boot version 2.6.3
+* Documentacion de endpoint : swagger 3.0.0
+* La utilizacion de proyectos Maven resulta de utilidad para poder optimizar los tiempos de desarrollo e invertir realmente en el desarrollo de logica de negocio y documentacion 
+* de la aplicacion ya que se evita tiempo en configuraciones extras que puede necesitar cualquier otra tecnologia.
 
-```bash
-git clone https://github.com/callicoder/spring-boot-postgresql-jpa-hibernate-rest-api-demo.git
-```
+### Listado de EndPoint's
+**Authenticacion con token tipo Bearer
+* /authenticate : Para authenticacion de usuario y obtencion de token (username:javaisue, password:password).
+* /signup: Para permitir el registro de usuarios de usuarios
+* /customers : CRUD para gestion de clientes, rol de acceso : ADMIN
+* /destinations: CRUD para la gestion de bodegas de almacenamiento terrestre o maritimo (Tipo 1: Terrestre,Tipo2:Maritimo), rol de acceso : ADMIN.
+* /product: CRUD para la gestion de productos, rol de acceso : ADMIN.
+* /deliveries/: registro de entregas.
+* /deliveries/deliveriesByCustomer/{id}: obtener entregas registradas por ID de cliente.
 
-**2. Configure PostgreSQL**
-
-First, create a database named `postgres_demo`. Then, open `src/main/resources/application.properties` file and change the spring datasource username and password as per your PostgreSQL installation.
-
-**3. Run the app**
-
-Type the following command from the root directory of the project to run it -
-
-```bash
-mvn spring-boot:run
-```
-
-Alternatively, you can package the application in the form of a JAR file and then run it like so -
-
-```bash
-mvn clean package
-java -jar target/postgres-demo-0.0.1-SNAPSHOT.jar
-```
+Para cada uno de los ENDPOINTS se han creado las siguientes acciones:
+* /all = Método HTTP: GET : returna un listado de la entity
+* / = Método HTTP: POST : crea la entity
+* /{id} = Método HTTP: GET : devuelve una entity en base a su id
+* /{id} =Método HTTP: PUT: actualiza una entity
+* / = Método HTTP: DELETE : elimina una entity.
