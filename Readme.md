@@ -19,12 +19,13 @@ Diagrama ER de la solucion desarrollada.
 
 ### Listado de EndPoint's
 **Authenticacion con token tipo Bearer
-* /authenticate : Para authenticacion de usuario y obtencion de token (username:javaisue, password:password).
-* /signup: Para permitir el registro de usuarios de usuarios
+* /authenticate : Para authenticacion de usuario y obtencion de token (username:javainuse, password:password).
+* /signup: Para permitir el registro de usuarios de usuarios, para ello se han creado dos roles uno ADMIN y USER, los cuales (ADMIN, USER o ambos) se deben enviar como un list *de String para asociar * usuario con sus respectivos ROLES.
 * /customers : CRUD para gestion de clientes, rol de acceso : ADMIN
 * /destinations: CRUD para la gestion de bodegas de almacenamiento terrestre o maritimo (Tipo 1: Terrestre,Tipo2:Maritimo), rol de acceso : ADMIN.
 * /product: CRUD para la gestion de productos, rol de acceso : ADMIN.
 * /deliveries/: registro de entregas.
+* /deliveries/all : todos los deliveries pendientes
 * /deliveries/deliveriesByCustomer/{id}: obtener entregas registradas por ID de cliente.
 
 Para cada uno de los ENDPOINTS se han creado las siguientes acciones:
