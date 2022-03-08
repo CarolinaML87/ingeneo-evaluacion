@@ -22,11 +22,12 @@ public class CtUsers{
     @Column(columnDefinition = "password")
     private String password;
     
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(	name = "user_roles",schema = "logistica",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<CtRoles> roles = new HashSet<>();
+    
+    public CtUsers(String username,String password,Date fhCrea){
+        this.userName = username;
+        this.password = password;
+        this.fhCreated = fhCrea;
+    }
     
     public Integer getId() {
         return id;

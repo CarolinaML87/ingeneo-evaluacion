@@ -5,13 +5,11 @@
  */
 package com.ingeneo.api.evaluacion.repository;
 
-import com.ingeneo.api.evaluacion.model.CtUsers;
-import java.util.Optional;
+import com.ingeneo.api.evaluacion.model.CtRoles;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface CtUsersRepository extends JpaRepository<CtUsers, Long>{
-    Optional<CtUsers> findByUserName(String username);
-     Boolean existsByUserName(String username);
+public interface CtRolesRepository extends JpaRepository<CtRoles, Long>{
+    CtRoles findByName(String name);
 }

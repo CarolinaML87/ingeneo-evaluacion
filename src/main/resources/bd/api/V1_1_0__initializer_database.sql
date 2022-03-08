@@ -54,7 +54,7 @@ CREATE TABLE IF NOT EXISTS public.ct_users
     id integer NOT NULL DEFAULT nextval('ct_users_id_seq'::regclass),
     user_name character varying(30) COLLATE pg_catalog."default" NOT NULL,
     fh_created date NOT NULL,
-    password character varying(30) COLLATE pg_catalog."default" NOT NULL,
+    password character varying(100) COLLATE pg_catalog."default" NOT NULL,
     CONSTRAINT ct_users_pkey PRIMARY KEY (id)
 )
 
@@ -163,3 +163,13 @@ CREATE SEQUENCE IF NOT EXISTS public.tt_deliveries_id_seq
     MAXVALUE 2147483647
     CACHE 1
     OWNED BY tt_deliveries.id;
+
+
+INSERT INTO public.ct_roles(
+	id, name, description)
+	VALUES (1, "ADMIN", "Usuario administrador del sistema privilegios ilimitados");
+
+
+INSERT INTO public.ct_roles(
+	id, name, description)
+	VALUES (2, "USER", "Usuario habilitado para crear deliveries");
